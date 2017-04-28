@@ -18,13 +18,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
+                case R.id.navigation_cam:
                     mTextMessage.setText(R.string.title_camera);
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_album:
                     mTextMessage.setText(R.string.title_album);
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.navigation_uploads:
                     mTextMessage.setText(R.string.title_uploads);
                     return true;
             }
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setSelectedItemId(R.id.navigation_dashboard);
+        navigation.setSelectedItemId(R.id.navigation_album);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
