@@ -2,6 +2,7 @@ package com.example.geo.geochat;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -16,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
+import com.example.geo.geochat.Point;
+import com.example.geo.geochat.BinManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,11 +51,18 @@ public class MainActivity extends AppCompatActivity {
 
     };
 
+    public String getBin(Location location){
+        // Takes in location object and returns appropriate string that represents the bin it belongs to
+        //uses binmanager as helper function
+        return "S";
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mlocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         mTextMessage = (TextView) findViewById(R.id.message);
         locationData = (TextView) findViewById(R.id.location);
@@ -83,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         try {
-            mlocationManager.requestLocationUpdates("gps",5000,0,mlocationListener);
+            mlocationManager.requestLocationUpdates("network",5000,0,mlocationListener);
             Log.i(TAG,"location has been requested");
         }catch (SecurityException e){
             Log.i(TAG,"exception caught");
