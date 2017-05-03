@@ -5,24 +5,48 @@ import com.example.geo.geochat.Point;
  */
 
 public class BinManager {
-    // structure would be (x1,y1), (x2,y2)....(x4,y4) as defined in docs
-    Point[] mIV = {
-            new Point(34.408913,-119.869647),
-            new Point(34.417436,-119.869587),
-            new Point(34.417195,-119.853599),
-            new Point(34.407896,-119.853688)
+    // structure would be (x1,y1), (x2,y2)....(x4,y4) as defined in docs bL,tL,tR,bR
+    static Point[] mIV = {
+            new Point(34.407896,-119.869647), // bottom left
+            new Point(34.419508, -119.869647),//Top Left
+            new Point(34.419508,-119.853688), // Top right
+            new Point(34.407896,-119.853688) // bottom right
     };
 
-    Point[] mUCSB = {
-            new Point(34.404263,-119.852816),
-            new Point(34.403920,-119.838795),
-            new Point(34.419527,-119.853570),
-            new Point(34.419551,-119.839203)
+    static Point[] mUCSB = {
+            new Point(34.404263,-119.853000), // bottom left
+            new Point(34.419551,-119.853000), // top left
+            new Point(34.419551,-119.839203), // top right
+            new Point(34.403920,-119.838795) // bottom right
     };
 
-    public boolean isInBin(Point[] bin, Point location){
-        // logic to determine if its in IV or UCSB
-        return true;
+    public static boolean isInBin(Point[] bin, Point location){
+        // this is horrible and should never see the light of day, I'll fix it soon
+        // logic to determine if its in a given bin
+        double x = location.getX();
+        double y = location.getY();
+
+        // first check x min value
+        if (x > bin[0].getX()){
+            // check against max x value
+            if (x < bin[1].getX()){
+                // check against min y value
+                if (y > bin[1].getY()){
+                    // check against max y value
+                    if (y < bin[2].getY()){
+                        return true;
+                    }else {
+                        return false;
+                    }
+                }else{
+                    return false;
+                }
+            }else {
+                return false;
+            }
+        }else {
+            return false;
+        }
     }
 
 }

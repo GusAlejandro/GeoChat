@@ -53,8 +53,16 @@ public class MainActivity extends AppCompatActivity {
 
     public String getBin(Location location){
         // Takes in location object and returns appropriate string that represents the bin it belongs to
-        //uses binmanager as helper function
-        return "S";
+        Point currentSpot = new Point(location.getLatitude(),location.getLongitude());
+        // check if UCSB
+        if (BinManager.isInBin(BinManager.mUCSB,currentSpot)){
+            return "UCSB";
+        }else if (BinManager.isInBin(BinManager.mIV,currentSpot)){
+            return "IV";
+        }else{
+            return null;
+        }
+
     }
 
 
@@ -72,8 +80,13 @@ public class MainActivity extends AppCompatActivity {
         mlocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                locationData.setText(location.toString());
-                // calculate bin, save to sharedpreferences 
+                if(getBin(location).equals("UCSB")){
+                    locationData.setText("UCSB");
+                }else if(getBin(location).equals("IV")){
+                    locationData.setText("IV");
+                }else{
+                    locationData.setText("NO LOCATION FOUND");
+                }
             }
 
             @Override
