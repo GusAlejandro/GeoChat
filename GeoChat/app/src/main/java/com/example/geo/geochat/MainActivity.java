@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.content.SharedPreferences;
 import com.example.geo.geochat.Point;
 import com.example.geo.geochat.BinManager;
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager mlocationManager;
     private LocationListener mlocationListener;
     private static String TAG = "LOG_CAT";
+    static final String SAVED_LOCATION = "MyLocation";
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         }else if (BinManager.isInBin(BinManager.mIV,currentSpot)){
             return "IV";
         }else{
-            return null;
+            return "nope";
         }
 
     }
@@ -77,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setSelectedItemId(R.id.navigation_album);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        final SharedPreferences myPreferences = getSharedPreferences(SAVED_LOCATION, MODE_PRIVATE);
+        String saved_location = myPreferences.getString("savedLocation","NULL");
+        if (!saved_location.equals("NULL")){
+            locationData.setText(saved_location);
+        }
         mlocationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -135,5 +142,15 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
     }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        final SharedPreferences myPreferences = getSharedPreferences(SAVED_LOCATION, MODE_PRIVATE);
+        SharedPreferences.Editor editor = myPreferences.edit();
+        editor.putString("savedLocation",locationData.getText().toString());
+        editor.apply();
+    }
+
 }
 
