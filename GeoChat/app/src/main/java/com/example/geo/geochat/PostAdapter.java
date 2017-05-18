@@ -11,7 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.util.Log;
-//import com.bumptech.glide.Glide;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -38,6 +38,9 @@ public class PostAdapter extends ArrayAdapter<PhotoPost>{
             textView.setVisibility(View.GONE);
             photoImageView.setVisibility(View.VISIBLE);
             //handle setting the image, need to download glide
+            Glide.with(photoImageView.getContext())
+                    .load(post.getPhotoURL())
+                    .into(photoImageView);
         } else{
             String lom = post.getText();
             Log.i(TAG,"its haaappening " + lom);

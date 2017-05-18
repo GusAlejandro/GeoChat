@@ -4,6 +4,8 @@ package com.example.geo.geochat;
  * Created by gustavo on 5/16/17.
  */
 
+//TODO: as mentioned in MainActivity.java we could eventually add a date field to help sort posts in feed
+
 public class PhotoPost {
     private String photoURL;
     private String text;

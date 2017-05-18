@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         final SharedPreferences myPreferences = getSharedPreferences(SAVED_LOCATION, MODE_PRIVATE);
         final String saved_location = myPreferences.getString("savedLocation","NULL");
         mChildEventListener = new ChildEventListener() {
+            //TODO: At the moment we get it from oldest to newest, coudl add date field to order by date newwest to oldest
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Log.i(TAG,"child was added");
