@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "180692336889",
+    "firebase_url": "https://geochat-57401.firebaseio.com",
+    "project_id": "geochat-57401",
+    "storage_bucket": "geochat-57401.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180692336889:android:7339156443628f76",
+        "android_client_info": {
+          "package_name": "com.example.geo.geochat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "180692336889-binh8a89d7mquj6vdpb1j8o0jpm3jhi7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.geo.geochat",
+            "certificate_hash": "a0a59a17909265c62d88750d1420939d249dd7cb"
+          }
+        },
+        {
+          "client_id": "180692336889-vjvp72cf4mdufe9ofpl940burk5pai3g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTq1dEwMTRrYdCyjgC2BgZLovp224zOIY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "180692336889-vjvp72cf4mdufe9ofpl940burk5pai3g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
