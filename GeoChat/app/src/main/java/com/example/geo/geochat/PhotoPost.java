@@ -1,5 +1,6 @@
 package com.example.geo.geochat;
 
+
 /**
  * Created by gustavo on 5/16/17.
  */
@@ -9,6 +10,7 @@ package com.example.geo.geochat;
 public class PhotoPost {
     private String photoURL;
     private String text;
+
 
     public PhotoPost(){
         //stuff

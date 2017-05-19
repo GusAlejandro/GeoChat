@@ -160,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
                             if(taco == 0){
                                 myRefUCSB.addChildEventListener(mChildEventListener);
                             }
-
                         }
                     }
                     locationData.setText("UCSB");
