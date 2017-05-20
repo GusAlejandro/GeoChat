@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_uploads:
                     mTextMessage.setText(R.string.title_uploads);
+                    Intent intent = new Intent(MainActivity.this, BinPeekingActivity.class);
+                    startActivity(intent);
                     return true;
             }
             return false;
