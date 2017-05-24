@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -16,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.content.SharedPreferences;
@@ -33,6 +35,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 //    TODO: fix the navigation labels
+
     private TextView mTextMessage;
     private TextView locationData;
     private ListView mfeedListView;
@@ -61,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_uploads:
                     mTextMessage.setText(R.string.title_uploads);
+                    Intent intent = new Intent(MainActivity.this, BinPeekingActivity.class);
+                    intent.putExtra("currentLocation",locationData.getText().toString());
+                    startActivity(intent);
                     return true;
             }
             return false;
