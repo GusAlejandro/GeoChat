@@ -267,6 +267,7 @@ public class MainActivity extends AppCompatActivity {
                 configureButton();
                 break;
             default:
+//                this.onCreate(new Bundle());
                 break;
         }
     }
@@ -279,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.INTERNET},10);
             }
-            return;
+            return ;
         }
     }
 

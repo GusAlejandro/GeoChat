@@ -44,7 +44,7 @@ public class ReviewActivity extends AppCompatActivity {
         mPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                 // set up firebase below
             }
         });
     }
