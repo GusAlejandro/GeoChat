@@ -3,4 +3,12 @@
     <string name="title_camera">Camera</string>
     <string name="title_album">Photo Album</string>
     <string name="title_uploads">Explore</string>
+
+    <string name="title_activity_camera_capture">CameraCapture</string>
+    <string name="capture_button">Capture</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="ok">OK</string>
+    <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
+    <string name="title_activity_review">ReviewActivity</string>
+
 </resources>

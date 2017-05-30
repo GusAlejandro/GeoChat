@@ -2,12 +2,12 @@ package com.example.geo.geochat;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -17,12 +17,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.content.SharedPreferences;
-import com.example.geo.geochat.Point;
-import com.example.geo.geochat.BinManager;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -58,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_cam:
                     mTextMessage.setText(R.string.title_camera);
+                    Intent camIntent = new Intent(MainActivity.this,CameraCapture.class);
+                    camIntent.putExtra("currentLocation",locationData.getText().toString());
+                    startActivity(camIntent);
                     return true;
                 case R.id.navigation_album:
                     mTextMessage.setText(R.string.title_album);
