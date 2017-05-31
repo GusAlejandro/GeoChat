@@ -108,18 +108,24 @@ public class CameraCapture extends AppCompatActivity {
                     switch(facing){
                         case CameraSource.CAMERA_FACING_BACK:
                             mCameraSource.stop();
+                            mCameraSource.release();
                             createCameraSource(CameraSource.CAMERA_FACING_FRONT);
                             try{
+                                Log.i("LOG_CAT","source start");
                                 mCameraSource.start();
+                                Log.i("LOG_CAT","source end");
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
                             break;
                         case CameraSource.CAMERA_FACING_FRONT:
                             mCameraSource.stop();
+                            mCameraSource.release();
                             createCameraSource(CameraSource.CAMERA_FACING_BACK);
                             try{
+                                Log.i("LOG_CAT","source start");
                                 mCameraSource.start();
+                                Log.i("LOG_CAT","source end");
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -130,7 +136,7 @@ public class CameraCapture extends AppCompatActivity {
                 }
             });
         } else {
-            mCameraSwapButton.setVisibility(View.INVISIBLE);
+            mCameraSwapButton.setVisibility(View.GONE);
         }
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -170,7 +176,8 @@ public class CameraCapture extends AppCompatActivity {
                             mImageView.setImageBitmap(mCapturedImage);
                             mPreview.addView(mImageView);
                             mPreview.bringChildToFront(mImageView);
-                            mReviewButton.setVisibility(View.INVISIBLE);
+                            mReviewButton.setVisibility(View.GONE);
+                            mCameraSwapButton.setVisibility(View.GONE);
                             mLinearLayout.setVisibility(View.VISIBLE);
                         }
                     });
@@ -210,6 +217,7 @@ public class CameraCapture extends AppCompatActivity {
                 mPreview.removeView(mImageView);
                 mLinearLayout.setVisibility(View.INVISIBLE);
                 mReviewButton.setVisibility(View.VISIBLE);
+                mCameraSwapButton.setVisibility(View.VISIBLE);
             }
         });
         mImageView = new ImageView(getApplicationContext());
@@ -261,13 +269,11 @@ public class CameraCapture extends AppCompatActivity {
 
     private boolean haveFrontCamera() {
         try {
-            String frontCamID = null;
             CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
             for (String cameraId : manager.getCameraIdList()) {
                 CameraCharacteristics cameraCharacteristics = manager.getCameraCharacteristics(cameraId);
                 Integer facing = cameraCharacteristics.get(CameraCharacteristics.LENS_FACING);
                 if (facing == CameraMetadata.LENS_FACING_FRONT) {
-                    frontCamID = cameraId;
                     return true;
                 }
             }
