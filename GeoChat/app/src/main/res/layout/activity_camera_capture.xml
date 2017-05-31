@@ -33,6 +33,7 @@
         <Button
             android:id="@+id/postBtn"
             style="?metaButtonBarButtonStyle"
+            android:textColor="#CCCCCC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|bottom"
@@ -40,6 +41,7 @@
         <Button
             android:id="@+id/retakeBtn"
             style="?metaButtonBarButtonStyle"
+            android:textColor="#CCCCCC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|bottom"

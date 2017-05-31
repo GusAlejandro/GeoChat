@@ -106,6 +106,23 @@ public class CameraCapture extends AppCompatActivity {
                 }
             }
         });
+
+        mPostButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // add firebase stuff
+                finish();
+            }
+        });
+
+        mRetakeButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPreview.removeView(mImageView);
+                mLinearLayout.setVisibility(View.INVISIBLE);
+                mReviewButton.setVisibility(View.VISIBLE);
+            }
+        });
         mImageView = new ImageView(getApplicationContext());
         mImageView.setScaleType(ImageView.ScaleType.FIT_XY);
     }
