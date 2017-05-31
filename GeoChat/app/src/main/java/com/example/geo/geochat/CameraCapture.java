@@ -8,6 +8,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraMetadata;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -64,6 +68,7 @@ public class CameraCapture extends AppCompatActivity {
     private Button mPostButton;
     private Button mRetakeButton;
     private String mLocation;
+    private Button mCameraSwapButton;
 
     private DatabaseReference mPhotosReference;
 
@@ -92,7 +97,41 @@ public class CameraCapture extends AppCompatActivity {
         mRetakeButton = (Button) findViewById(R.id.retakeBtn);
         mLinearLayout = (LinearLayout) findViewById(R.id.postRetakeLayout);
         mLinearLayout.setVisibility(View.INVISIBLE);
+        mCameraSwapButton = (Button) findViewById(R.id.swapButton);
 
+        if(haveFrontCamera()){
+            mCameraSwapButton.setVisibility(View.VISIBLE);
+            mCameraSwapButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int facing = mCameraSource.getCameraFacing();
+                    switch(facing){
+                        case CameraSource.CAMERA_FACING_BACK:
+                            mCameraSource.stop();
+                            createCameraSource(CameraSource.CAMERA_FACING_FRONT);
+                            try{
+                                mCameraSource.start();
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                            break;
+                        case CameraSource.CAMERA_FACING_FRONT:
+                            mCameraSource.stop();
+                            createCameraSource(CameraSource.CAMERA_FACING_BACK);
+                            try{
+                                mCameraSource.start();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+        } else {
+            mCameraSwapButton.setVisibility(View.INVISIBLE);
+        }
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
@@ -110,7 +149,7 @@ public class CameraCapture extends AppCompatActivity {
         // permission is not granted yet, request permission.
         int permissionGranted = ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA);
         if (permissionGranted == PackageManager.PERMISSION_GRANTED) {
-            createCameraSource();
+            createCameraSource(CameraSource.CAMERA_FACING_BACK);
         } else {
             requestCameraPermission();
         }
@@ -220,13 +259,31 @@ public class CameraCapture extends AppCompatActivity {
                 .show();
     }
 
+    private boolean haveFrontCamera() {
+        try {
+            String frontCamID = null;
+            CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+            for (String cameraId : manager.getCameraIdList()) {
+                CameraCharacteristics cameraCharacteristics = manager.getCameraCharacteristics(cameraId);
+                Integer facing = cameraCharacteristics.get(CameraCharacteristics.LENS_FACING);
+                if (facing == CameraMetadata.LENS_FACING_FRONT) {
+                    frontCamID = cameraId;
+                    return true;
+                }
+            }
+            return false;
+        }catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     /**
      * Creates and starts the camera.  Note that this uses a higher resolution in comparison
      * to other detection examples to enable the barcode detector to detect small barcodes
      * at long distances.
      */
-    private void createCameraSource() {
+    private void createCameraSource(int facing) {
 
         // TODO: Create a face detector for real time face detection
         // 1. Get the application's context
@@ -258,7 +315,7 @@ public class CameraCapture extends AppCompatActivity {
         //    its associated MultiProcessor
         mCameraSource = new CameraSource.Builder(context,detector)
                 .setRequestedPreviewSize(800,600)
-                .setFacing(CameraSource.CAMERA_FACING_BACK)
+                .setFacing(facing)
                 .setRequestedFps(30.0f)
                 .build();
 
@@ -322,7 +379,7 @@ public class CameraCapture extends AppCompatActivity {
         if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Camera permission granted - initialize the camera source");
             // we have permission, so create the camerasource
-            createCameraSource();
+            createCameraSource(CameraSource.CAMERA_FACING_BACK);
             return;
         }
 
