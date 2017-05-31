@@ -3,7 +3,7 @@ package com.example.geo.geochat;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +17,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.geo.geochat.camera.CameraSourcePreview;
 import com.example.geo.geochat.camera.GraphicOverlay;
@@ -47,16 +49,25 @@ public class CameraCapture extends AppCompatActivity {
 
     private Bitmap mCapturedImage;
     private Button mReviewButton;
+    private ImageView mImageView;
+    private LinearLayout mLinearLayout;
+    private Button mPostButton;
+    private Button mRetakeButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_camera_capture);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay) findViewById(R.id.faceOverlay);
         mReviewButton = (Button) findViewById(R.id.captureButton);
-
+        mPostButton = (Button) findViewById(R.id.postBtn);
+        mRetakeButton = (Button) findViewById(R.id.retakeBtn);
+        mLinearLayout = (LinearLayout) findViewById(R.id.postRetakeLayout);
+        mLinearLayout.setVisibility(View.INVISIBLE);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
@@ -85,21 +96,18 @@ public class CameraCapture extends AppCompatActivity {
                         public void onPictureTaken(byte[] data) {
                             //capture image doesnt' work below, just take the data and start somethign, because we dont' need it otherwise
                             mCapturedImage = BitmapFactory.decodeByteArray(data, 0, data.length);
-                            // create the review intent with bundled image and location
-                            Intent reviewIntent = new Intent(CameraCapture.this, ReviewActivity.class);
-                            Bundle reviewBundle = new Bundle();
-                            reviewBundle.putString("location", value);
-                            reviewBundle.putByteArray("image", data);
-                            reviewIntent.putExtras(reviewBundle);
-
-                            //start the activity
-                            startActivity(reviewIntent);
+                            mImageView.setImageBitmap(mCapturedImage);
+                            mPreview.addView(mImageView);
+                            mPreview.bringChildToFront(mImageView);
+                            mReviewButton.setVisibility(View.INVISIBLE);
+                            mLinearLayout.setVisibility(View.VISIBLE);
                         }
                     });
                 }
             }
         });
-
+        mImageView = new ImageView(getApplicationContext());
+        mImageView.setScaleType(ImageView.ScaleType.FIT_XY);
     }
 
     @Override

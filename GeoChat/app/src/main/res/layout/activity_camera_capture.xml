@@ -25,4 +25,24 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
         android:text="@string/capture_button" />
+    <LinearLayout
+        android:id="@+id/postRetakeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom" >
+        <Button
+            android:id="@+id/postBtn"
+            style="?metaButtonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:text="Post" />
+        <Button
+            android:id="@+id/retakeBtn"
+            style="?metaButtonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:text="Retake" />
+    </LinearLayout>
 </FrameLayout>

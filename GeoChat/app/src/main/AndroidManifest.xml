@@ -45,15 +45,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.geo.geochat.MainActivity" />
         </activity>
-        <activity
-            android:name=".ReviewActivity"
-            android:label="@string/title_activity_review"
-            android:parentActivityName=".CameraCapture"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.geo.geochat.CameraCapture" />
-        </activity>
     </application>
 
 </manifest>
