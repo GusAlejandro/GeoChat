@@ -7,9 +7,9 @@ import com.example.geo.geochat.Point;
 public class BinManager {
     // structure would be (x1,y1), (x2,y2)....(x4,y4) as defined in docs bL,tL,tR,bR
     static Point[] mIV = {
-            new Point(34.407896,-119.869647), // bottom left
-            new Point(34.419508, -119.869647),//Top Left
-            new Point(34.419508,-119.853688), // Top right
+            new Point(34.407896,-119.874907), // bottom left
+            new Point(34.420908,  -119.874907),//Top Left
+            new Point(34.420908,-119.853688), // Top right
             new Point(34.407896,-119.853688) // bottom right
     };
 
