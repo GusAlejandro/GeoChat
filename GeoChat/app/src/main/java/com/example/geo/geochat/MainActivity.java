@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference myRefUCSB = database.getReference().child("ucsb");
     private ChildEventListener mChildEventListener;
 
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 

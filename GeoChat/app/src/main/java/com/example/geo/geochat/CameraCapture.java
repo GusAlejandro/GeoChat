@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -55,10 +56,17 @@ public class CameraCapture extends AppCompatActivity {
     private Button mRetakeButton;
 
 
+    public static Bitmap rotate(Bitmap source){
+        Matrix matrix = new Matrix();
+        matrix.postRotate(90);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        final String strManufacturer = android.os.Build.MANUFACTURER;
         setContentView(R.layout.activity_camera_capture);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
@@ -96,6 +104,9 @@ public class CameraCapture extends AppCompatActivity {
                         public void onPictureTaken(byte[] data) {
                             //capture image doesnt' work below, just take the data and start somethign, because we dont' need it otherwise
                             mCapturedImage = BitmapFactory.decodeByteArray(data, 0, data.length);
+                            if(strManufacturer.equals("samsung")){
+                                mCapturedImage = rotate(mCapturedImage);
+                            }
                             mImageView.setImageBitmap(mCapturedImage);
                             mPreview.addView(mImageView);
                             mPreview.bringChildToFront(mImageView);
