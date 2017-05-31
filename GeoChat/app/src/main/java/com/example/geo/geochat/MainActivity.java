@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private int taco = 0;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRefIV;
-    DatabaseReference myRefUCSB = database.getReference().child("ucsb");
+    DatabaseReference myRefUCSB = database.getReference().child("UCSB");
     private ChildEventListener mChildEventListener;
 
 
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        myRefIV = database.getReference().child("iv");
+        myRefIV = database.getReference().child("IV");
         mlocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         mTextMessage = (TextView) findViewById(R.id.message);
         locationData = (TextView) findViewById(R.id.location);

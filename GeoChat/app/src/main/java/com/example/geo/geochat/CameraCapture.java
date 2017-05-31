@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -25,13 +26,21 @@ import com.example.geo.geochat.camera.CameraSourcePreview;
 import com.example.geo.geochat.camera.GraphicOverlay;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.UUID;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -54,6 +63,13 @@ public class CameraCapture extends AppCompatActivity {
     private LinearLayout mLinearLayout;
     private Button mPostButton;
     private Button mRetakeButton;
+    private String mLocation;
+
+    private DatabaseReference mPhotosReference;
+
+    private FirebaseStorage mPhotoStorage;
+    private StorageReference mStorageReference;
+    private Uri mDownloadUrl;
 
 
     public static Bitmap rotate(Bitmap source){
@@ -76,6 +92,7 @@ public class CameraCapture extends AppCompatActivity {
         mRetakeButton = (Button) findViewById(R.id.retakeBtn);
         mLinearLayout = (LinearLayout) findViewById(R.id.postRetakeLayout);
         mLinearLayout.setVisibility(View.INVISIBLE);
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
@@ -83,7 +100,11 @@ public class CameraCapture extends AppCompatActivity {
 
         //grab currentLocation to ship to the next upload activity
         Bundle testM = getIntent().getExtras();
-        final String value = testM.getString("currentLocation");
+        mLocation = testM.getString("currentLocation");
+        mPhotosReference = FirebaseDatabase.getInstance().getReference().child(mLocation);
+
+        mPhotoStorage = FirebaseStorage.getInstance();
+        mStorageReference = mPhotoStorage.getReference();
 
         // Check for the camera permission before accessing the camera.  If the
         // permission is not granted yet, request permission.
@@ -122,6 +143,24 @@ public class CameraCapture extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // add firebase stuff
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                mCapturedImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] data = baos.toByteArray();
+
+                String uniqueID = UUID.randomUUID().toString();
+                StorageReference childRef = mStorageReference.child(uniqueID+".jpg");
+                UploadTask uploadTask = childRef.putBytes(data);
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                        mDownloadUrl = taskSnapshot.getDownloadUrl();
+                        Log.i("LOG_CAT","before image into database");
+                        mPhotosReference.push().child("photoURL").setValue(mDownloadUrl.toString());
+                        Log.i("LOG_CAT","uploaded image into database");
+                    }
+                });
+
                 finish();
             }
         });
