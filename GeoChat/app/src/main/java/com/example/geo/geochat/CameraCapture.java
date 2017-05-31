@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
@@ -23,8 +22,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.geo.geochat.camera.CameraSourcePreview;
 import com.example.geo.geochat.camera.GraphicOverlay;
@@ -64,6 +65,7 @@ public class CameraCapture extends AppCompatActivity {
     private Bitmap mCapturedImage;
     private Button mReviewButton;
     private ImageView mImageView;
+    private EditText mEditText;
     private LinearLayout mLinearLayout;
     private Button mPostButton;
     private Button mRetakeButton;
@@ -214,6 +216,20 @@ public class CameraCapture extends AppCompatActivity {
         });
         mImageView = new ImageView(getApplicationContext());
         mImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+        // create a text box that can change values
+        mImageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                //on long press create a text view at press location, wrapped content, visible,
+                mEditText = new EditText(CameraCapture.this);
+                mPreview.addView(mEditText);
+                mPreview.bringChildToFront(mEditText);
+                mEditText.setVisibility(View.VISIBLE);
+                //returns true if callback used onclick
+                return true;
+            }
+        });
     }
 
     @Override
