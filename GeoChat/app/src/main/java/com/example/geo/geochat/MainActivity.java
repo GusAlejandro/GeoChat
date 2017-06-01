@@ -25,8 +25,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
     static final String SAVED_LOCATION = "MyLocation";
     private int taco = 0;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRefIV;
-    DatabaseReference myRefUCSB = database.getReference().child("UCSB");
+    Query myRefIV;
+    Query myRefUCSB = database.getReference().child("UCSB").orderByChild("time");
     private ChildEventListener mChildEventListener;
 
 
@@ -55,16 +57,16 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_cam:
-                    mTextMessage.setText(R.string.title_camera);
+                    //mTextMessage.setText(R.string.title_camera);
                     Intent camIntent = new Intent(MainActivity.this,CameraCapture.class);
                     camIntent.putExtra("currentLocation",locationData.getText().toString());
                     startActivity(camIntent);
                     return true;
                 case R.id.navigation_album:
-                    mTextMessage.setText(R.string.title_album);
+                    //mTextMessage.setText(R.string.title_album);
                     return true;
                 case R.id.navigation_uploads:
-                    mTextMessage.setText(R.string.title_uploads);
+                    //mTextMessage.setText(R.string.title_uploads);
                     Intent intent = new Intent(MainActivity.this, BinPeekingActivity.class);
                     intent.putExtra("currentLocation",locationData.getText().toString());
                     startActivity(intent);
@@ -95,9 +97,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        myRefIV = database.getReference().child("IV");
+        myRefIV = database.getReference().child("IV").orderByChild("time");
         mlocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        mTextMessage = (TextView) findViewById(R.id.message);
+        //mTextMessage = (TextView) findViewById(R.id.message);
         locationData = (TextView) findViewById(R.id.location);
         mfeedListView = (ListView) findViewById(R.id.photoListView);
         List<PhotoPost> feedPosts = new ArrayList<>();
@@ -114,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Log.i(TAG,"child was added");
                 PhotoPost photoPost =  dataSnapshot.getValue(PhotoPost.class);
+                //mPostAdapter.add(photoPost);
                 mPostAdapter.add(photoPost);
 
             }

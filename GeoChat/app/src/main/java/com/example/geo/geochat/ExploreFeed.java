@@ -19,8 +19,8 @@ public class ExploreFeed extends AppCompatActivity {
     private ListView mfeedListView;
     private PostAdapter mPostAdapter;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myIV = database.getReference().child("iv");
-    DatabaseReference myUCSB = database.getReference().child("ucsb");
+    DatabaseReference myIV = database.getReference().child("IV");
+    DatabaseReference myUCSB = database.getReference().child("UCSB");
     private ChildEventListener mChildEventListener;
     private static String TAG = "LOG_CAT";
 

@@ -9,14 +9,16 @@ package com.example.geo.geochat;
 public class PhotoPost {
     private String photoURL;
     private String text;
+    private Long time;
 
     public PhotoPost(){
         //stuff
     }
 
-    public PhotoPost(String photoURL, String text){
+    public PhotoPost(String photoURL,Long time,String text){
         this.photoURL = photoURL;
-        this.text = text;
+        this.time = time;
+        this.text = "lol";
     }
 
     public String getPhotoURL(){
@@ -26,6 +28,8 @@ public class PhotoPost {
     public String getText(){
         return this.text;
     }
+
+    public Long getTime(){ return this.time; }
 
     public void setText(String text){
         this.text = text;
