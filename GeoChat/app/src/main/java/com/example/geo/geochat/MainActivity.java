@@ -57,16 +57,16 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_cam:
-                    mTextMessage.setText(R.string.title_camera);
+                    //mTextMessage.setText(R.string.title_camera);
                     Intent camIntent = new Intent(MainActivity.this,CameraCapture.class);
                     camIntent.putExtra("currentLocation",locationData.getText().toString());
                     startActivity(camIntent);
                     return true;
                 case R.id.navigation_album:
-                    mTextMessage.setText(R.string.title_album);
+                    //mTextMessage.setText(R.string.title_album);
                     return true;
                 case R.id.navigation_uploads:
-                    mTextMessage.setText(R.string.title_uploads);
+                    //mTextMessage.setText(R.string.title_uploads);
                     Intent intent = new Intent(MainActivity.this, BinPeekingActivity.class);
                     intent.putExtra("currentLocation",locationData.getText().toString());
                     startActivity(intent);
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         myRefIV = database.getReference().child("IV").orderByChild("time");
         mlocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        mTextMessage = (TextView) findViewById(R.id.message);
+        //mTextMessage = (TextView) findViewById(R.id.message);
         locationData = (TextView) findViewById(R.id.location);
         mfeedListView = (ListView) findViewById(R.id.photoListView);
         List<PhotoPost> feedPosts = new ArrayList<>();
