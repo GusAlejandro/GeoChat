@@ -13,14 +13,17 @@ import android.widget.TextView;
 import android.util.Log;
 import com.bumptech.glide.Glide;
 
+import java.util.Collections;
 import java.util.List;
 
 
 public class PostAdapter extends ArrayAdapter<PhotoPost>{
     private static String TAG = "LOG_CAT";
+
     public PostAdapter(Context context, int resource, List<PhotoPost> objects) {
         super(context, resource, objects);
     }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
@@ -31,7 +34,7 @@ public class PostAdapter extends ArrayAdapter<PhotoPost>{
         ImageView photoImageView = (ImageView) convertView.findViewById(R.id.photoImageView);
         TextView textView = (TextView) convertView.findViewById(R.id.messageTextView);
 
-        PhotoPost post = getItem(position);
+        PhotoPost post = getItem(getCount()-(position+1));
 
         boolean isPhoto = post.getPhotoURL()!=null;
         if(isPhoto){

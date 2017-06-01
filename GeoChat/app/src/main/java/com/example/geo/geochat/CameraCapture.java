@@ -202,7 +202,14 @@ public class CameraCapture extends AppCompatActivity {
                         // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                         mDownloadUrl = taskSnapshot.getDownloadUrl();
                         Log.i("LOG_CAT","before image into database");
-                        mPhotosReference.push().child("photoURL").setValue(mDownloadUrl.toString());
+                        Long tsLong = System.currentTimeMillis()/1000;
+                        //tsLong = tsLong * -1;
+                        PhotoPost thePost = new PhotoPost(mDownloadUrl.toString(),tsLong,"lol");
+                        mPhotosReference.push().setValue(thePost);
+                        //mPhotosReference.child("photoURL").setValue(mDownloadUrl.toString());
+                        //mPhotosReference.child("time").setValue(tsLong);
+
+
                         Log.i("LOG_CAT","uploaded image into database");
                     }
                 });
